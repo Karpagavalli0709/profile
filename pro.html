@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karpagavalli V - Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+
+  :root {
+    --bg: #0e0e0e;
+    --card: #1a1a1a;
+    --accent: #00ffb3;
+    --text: #f0f0f0;
+    --muted: #888;
+    --border: #2a2a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  nav {
+    position: fixed; top: 0; width: 100%;
+    background: rgba(14,14,14,0.92);
+    backdrop-filter: blur(10px);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 40px; z-index: 99;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-weight: 800; font-size: 1.2rem; color: var(--accent); letter-spacing: 2px; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: color .3s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  #themeBtn {
+    background: var(--border); border: 1px solid var(--accent);
+    color: var(--accent); padding: 6px 16px; border-radius: 20px;
+    cursor: pointer; font-family: 'Space Mono', monospace; font-size: 0.75rem;
+    transition: all .3s;
+  }
+  #themeBtn:hover { background: var(--accent); color: #000; }
+
+  section { padding: 100px 40px 60px; max-width: 900px; margin: auto; }
+
+  #home {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; padding-top: 120px;
+  }
+  .greeting {
+    font-family: 'Space Mono', monospace;
+    color: var(--accent); font-size: 0.9rem; margin-bottom: 12px;
+    letter-spacing: 3px;
+  }
+  h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; }
+  h1 span { color: var(--accent); }
+  .tagline { color: var(--muted); margin-top: 16px; font-size: 1rem; max-width: 480px; line-height: 1.7; }
+  .cta {
+    margin-top: 32px; display: inline-block;
+    background: var(--accent); color: #000;
+    padding: 12px 30px; border-radius: 6px;
+    text-decoration: none; font-weight: 700; font-size: 0.9rem;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,255,179,0.3); }
+
+  h2 { font-size: 2rem; font-weight: 800; margin-bottom: 10px; }
+  h2 span { color: var(--accent); }
+  .section-line { width: 50px; height: 3px; background: var(--accent); margin-bottom: 36px; border-radius: 2px; }
+
+  .about-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 32px;
+    display: flex; gap: 28px; align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .avatar {
+    width: 90px; height: 90px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #005f44);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.4rem; flex-shrink: 0;
+  }
+  .about-text p { color: var(--muted); line-height: 1.8; font-size: 0.95rem; }
+  .about-text p + p { margin-top: 10px; }
+  .badge {
+    display: inline-block; background: rgba(0,255,179,0.1);
+    border: 1px solid var(--accent); color: var(--accent);
+    padding: 3px 12px; border-radius: 20px; font-size: 0.75rem;
+    margin: 10px 4px 0 0;
+  }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+  .skill-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px 16px; text-align: center;
+    transition: border-color .3s, transform .2s; cursor: default;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .skill-icon { font-size: 2rem; margin-bottom: 10px; }
+  .skill-card p { font-size: 0.85rem; color: var(--muted); }
+  .skill-card strong { color: var(--text); font-size: 0.95rem; }
+
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+  .project-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px; transition: border-color .3s;
+  }
+  .project-card:hover { border-color: var(--accent); }
+  .project-tag {
+    font-family: 'Space Mono', monospace; font-size: 0.7rem;
+    color: var(--accent); letter-spacing: 2px; margin-bottom: 10px;
+  }
+  .project-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+  .project-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+  .github-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 16px; color: var(--accent); text-decoration: none;
+    font-size: 0.82rem; font-family: 'Space Mono', monospace;
+    transition: opacity .2s;
+  }
+  .github-link:hover { opacity: 0.7; }
+
+  /* Random Play Button */
+  .play-btn {
+    display: inline-block; margin-top: 12px;
+    background: transparent; border: 1px solid var(--accent);
+    color: var(--accent); padding: 7px 18px; border-radius: 6px;
+    cursor: pointer; font-family: 'Space Mono', monospace; font-size: 0.78rem;
+    transition: all .3s; width: 100%;
+  }
+  .play-btn:hover { background: var(--accent); color: #000; }
+  .random-output {
+    margin-top: 12px; padding: 10px 14px;
+    background: rgba(0,255,179,0.07); border-left: 3px solid var(--accent);
+    border-radius: 4px; font-size: 0.82rem; color: var(--accent);
+    font-family: 'Space Mono', monospace; display: none;
+    line-height: 1.6;
+  }
+
+  .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .contact-item {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px;
+    text-decoration: none; color: var(--text);
+    transition: border-color .3s, transform .2s;
+    display: block;
+  }
+  .contact-item:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .contact-icon { font-size: 1.6rem; margin-bottom: 8px; }
+  .contact-item strong { display: block; font-size: 0.9rem; margin-bottom: 4px; }
+  .contact-item span { color: var(--muted); font-size: 0.8rem; word-break: break-all; }
+
+  footer {
+    text-align: center; padding: 30px;
+    color: var(--muted); font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+  }
+
+  body.light {
+    --bg: #f5f5f0; --card: #ffffff; --text: #1a1a1a;
+    --muted: #555; --border: #ddd;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">&lt;Portfolio/&gt;</div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button id="themeBtn">☀ Light</button>
+</nav>
+
+<!-- HOME -->
+<section id="home">
+  <p class="greeting" id="greetMsg">LOADING...</p>
+  <h1>Hi, I'm <span>Karpagavalli V</span> 👋</h1>
+  <p class="tagline">A curious first-year CS student exploring the world of code — one line at a time.</p>
+  <a href="#projects" class="cta">See My Work →</a>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2><span>#</span> About Me</h2>
+  <div class="section-line"></div>
+  <div class="about-card">
+    <div class="avatar">🧑‍💻</div>
+    <div class="about-text">
+      <p>Hey there! I'm <strong>Karpagavalli V</strong>, a first-year B.Tech Computer Science student. I recently stepped into the world of programming and honestly — I'm hooked.</p>
+      <p>I started with C in my first semester, then picked up HTML & CSS on my own. JavaScript opened up a whole new world for me. I love building small things that actually work in the browser!</p>
+      <p>Right now I'm focused on sharpening my frontend basics and learning how to collaborate with Git & GitHub.</p>
+      <span class="badge">📍 Tamil Nadu, India</span>
+      <span class="badge">🎓 1st Year B.Tech CS</span>
+      <span class="badge">🌱 Learning Every Day</span>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <h2><span>#</span> Skills</h2>
+  <div class="section-line"></div>
+  <div class="skills-grid">
+    <div class="skill-card"><div class="skill-icon">🌐</div><strong>HTML</strong><p>Structure & Semantics</p></div>
+    <div class="skill-card"><div class="skill-icon">🎨</div><strong>CSS</strong><p>Styling & Layouts</p></div>
+    <div class="skill-card"><div class="skill-icon">⚙️</div><strong>C Language</strong><p>Logic & Algorithms</p></div>
+    <div class="skill-card"><div class="skill-icon">⚡</div><strong>JavaScript</strong><p>Interactivity & DOM</p></div>
+    <div class="skill-card"><div class="skill-icon">🐙</div><strong>Git & GitHub</strong><p>Version Control</p></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <h2><span>#</span> Projects</h2>
+  <div class="section-line"></div>
+  <div class="projects-grid">
+
+    <!-- Project 1: College Website -->
+    <div class="project-card">
+      <p class="project-tag">PROJECT 01</p>
+      <h3>🏫 College Website</h3>
+      <p>A multi-page college website built with HTML & CSS. Includes homepage, about, departments & contact — fully responsive.</p>
+      <a class="github-link" href="https://github.com/karpagavalli-v/college-website" target="_blank">⭐ View on GitHub →</a>
+    </div>
+
+    <!-- Project 2: Calculator -->
+    <div class="project-card">
+      <p class="project-tag">PROJECT 02</p>
+      <h3>🧮 Calculator</h3>
+      <p>A clean calculator built with HTML & CSS. Supports basic arithmetic with a stylish button layout.</p>
+      <a class="github-link" href="https://github.com/karpagavalli-v/calculator" target="_blank">⭐ View on GitHub →</a>
+    </div>
+
+    <!-- Project 3: Landing Page -->
+    <div class="project-card">
+      <p class="project-tag">PROJECT 03</p>
+      <h3>🚀 Landing Page</h3>
+      <p>A modern product landing page built with HTML & CSS. Features hero section, features grid, and a call-to-action — clean and minimal.</p>
+      <a class="github-link" href="https://github.com/karpagavalli-v/landing-page" target="_blank">⭐ View on GitHub →</a>
+    </div>
+
+    <!-- Project 4: Random Play (JS) -->
+    <div class="project-card">
+      <p class="project-tag">PROJECT 04</p>
+      <h3>🎲 Random Play</h3>
+      <p>A fun JavaScript mini-game that picks a random activity, quote, or challenge for you. Built purely with HTML, CSS & JS.</p>
+      <a class="github-link" href="https://github.com/karpagavalli-v/random-play" target="_blank">⭐ View on GitHub →</a>
+      <br>
+      <!-- Interactive demo right inside the card! -->
+      <button class="play-btn" onclick="randomPlay()">🎲 Try It Here!</button>
+      <div class="random-output" id="randomOut"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2><span>#</span> Contact</h2>
+  <div class="section-line"></div>
+  <div class="contact-grid">
+    <a class="contact-item" href="tel:+919876543210">
+      <div class="contact-icon">📞</div>
+      <strong>Phone</strong>
+      <span>+91 98765 43210</span>
+    </a>
+    <a class="contact-item" href="https://linkedin.com/in/karpagavalli-v" target="_blank">
+      <div class="contact-icon">💼</div>
+      <strong>LinkedIn</strong>
+      <span>linkedin.com/in/karpagavalli-v</span>
+    </a>
+    <a class="contact-item" href="https://github.com/karpagavalli-v" target="_blank">
+      <div class="contact-icon">🐙</div>
+      <strong>GitHub</strong>
+      <span>github.com/karpagavalli-v</span>
+    </a>
+  </div>
+</section>
+
+<footer>Built with ❤️ by Karpagavalli V • 2025</footer>
+
+<script>
+  // 1. Greeting based on time of day
+  function setGreeting() {
+    const hr = new Date().getHours();
+    const msg = hr < 12 ? "☀️ GOOD MORNING, VISITOR!"
+               : hr < 17 ? "🌤 GOOD AFTERNOON, VISITOR!"
+               : "🌙 GOOD EVENING, VISITOR!";
+    document.getElementById("greetMsg").textContent = msg;
+  }
+  setGreeting();
+
+  // 2. Light / Dark theme toggle
+  const btn = document.getElementById("themeBtn");
+  btn.addEventListener("click", () => {
+    document.body.classList.toggle("light");
+    btn.textContent = document.body.classList.contains("light") ? "🌙 Dark" : "☀ Light";
+  });
+
+  // 3. Random Play — picks a random fun item on each click
+  const randomItems = [
+    "🎯 Challenge: Build a to-do list using only JS!",
+    "💡 Fun Fact: The first computer bug was a real moth 🦋",
+    "🎮 Mini Game: Think of a number 1–10... got it? It was 7 😄",
+    "🌈 Color of the day: #00ffb3 — that's our accent green!",
+    "📚 Tip: Practice coding 30 mins daily beats 5 hrs once a week.",
+    "🎵 Vibe: Lo-fi beats + dark mode = peak coding session.",
+    "🚀 Quote: 'First, solve the problem. Then, write the code.'",
+    "🐛 Debug tip: When stuck, explain your code to a rubber duck!",
+    "⚡ Did you know? JS was created in just 10 days in 1995!",
+    "🌸 Motivation: Every expert was once a beginner. Keep going!"
+  ];
+
+  function randomPlay() {
+    const out = document.getElementById("randomOut");
+    const pick = randomItems[Math.floor(Math.random() * randomItems.length)];
+    out.textContent = pick;
+    out.style.display = "block";
+    // Small bounce animation
+    out.style.opacity = "0";
+    out.style.transform = "translateY(6px)";
+    setTimeout(() => {
+      out.style.transition = "all 0.3s ease";
+      out.style.opacity = "1";
+      out.style.transform = "translateY(0)";
+    }, 10);
+  }
+</script>
+</body>
+</html>
